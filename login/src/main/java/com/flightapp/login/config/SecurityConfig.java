@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable().authorizeRequests()
 				.antMatchers("/flightapp/getall", "/flight/getallBookings", "/flightapp/registerAirline")
-				.access("hasRole('ADMIN')").antMatchers("/login/home", "/bookingHistory/{emailId}").authenticated()
+				.access("hasRole('ADMIN')").antMatchers("/login/home", "/flight/bookingHistory/{emailId}").authenticated()
 				.anyRequest().permitAll().and().exceptionHandling()
 				.authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

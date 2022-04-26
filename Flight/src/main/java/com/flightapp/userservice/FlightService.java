@@ -82,14 +82,14 @@ public class FlightService {
 		}
 	}
 
-	public void blockFlight(String flightId) throws FlightNotFoundException {
+	public void blockFlight(Flight flightdetails) throws FlightNotFoundException {
 		try {
-			Flight flight = flightRepo.findByflightId(flightId);
+			Flight flight = flightRepo.findByflightId(flightdetails.getFlightId());
 			if (flight == null) {
 				throw new Exception();
 			} else
 			{
-				flight.setFlightStatus("BLOCKED");
+				flight.setFlightStatus(flightdetails.getFlightStatus());
 				flightRepo.save(flight);
 			}
 		} catch (Exception e) {

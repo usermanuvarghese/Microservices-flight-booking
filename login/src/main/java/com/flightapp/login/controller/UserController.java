@@ -22,13 +22,14 @@ import com.flightapp.login.Response.FlightResponse;
 import com.flightapp.login.Response.LoginResponse;
 import com.flightapp.login.entity.UserEntity;
 import com.flightapp.login.service.UserService;
+import com.flightapp.model.Flight;
 
 @RestController
 @RequestMapping("/login")
 public class UserController {
 
 	@Autowired
-	private KafkaTemplate<String, String> kafkaTemplate;
+	private KafkaTemplate<String, Flight> kafkaTemplate;
 
 	@Autowired
 	private UserService userService;
@@ -44,10 +45,10 @@ public class UserController {
 		return new LoginResponse("Success");
 	}
 
-	@GetMapping("/mangaeflightStatus/{flightId}")
-	public String blockFlight(@PathVariable(name = "flightId") String flightId) {
-		kafkaTemplate.send("FlightInfo", flightId);
-		return "Success";
+	@PostMapping("/manageflightStatus")
+	public String blockFlight(@RequestBody Flight flight) {
+		kafkaTemplate.send("FlightInfo", flight);
+		return "Added Flight Details to Kafka";
 	}
 
 }

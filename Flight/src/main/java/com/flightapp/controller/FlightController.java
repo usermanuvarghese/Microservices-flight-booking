@@ -61,8 +61,8 @@ public class FlightController {
 	}
 
 	@KafkaListener(topics = "FlightInfo", groupId = "group_id", containerFactory = "userKafkaListenerContainerFactory")
-	public void getflights(String flightId) throws FlightNotFoundException {
-		service.blockFlight(flightId);
+	public void getflights(Flight flight) throws FlightNotFoundException {
+		service.blockFlight(flight);
 	}
 
 }

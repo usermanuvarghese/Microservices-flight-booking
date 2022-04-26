@@ -26,20 +26,20 @@ import com.flightapp.model.Flight;
 public class KafkaConfig {
 
 	@Bean
-	public ConsumerFactory<String, String> consumerFactory() {
+	public ConsumerFactory<String, Flight> consumerFactory() {
 		Map<String, Object> config = new HashMap<String, Object>();
 		config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 		config.put(ConsumerConfig.GROUP_ID_CONFIG, "group_id");
 		config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 		config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-		return new DefaultKafkaConsumerFactory<String, String>(config);
+		return new DefaultKafkaConsumerFactory<String, Flight>(config,new StringDeserializer(),new JsonDeserializer<Flight>(Flight.class));
 
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, String> userKafkaListenerContainerFactory() {
-		ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+	public ConcurrentKafkaListenerContainerFactory<String, Flight> userKafkaListenerContainerFactory() {
+		ConcurrentKafkaListenerContainerFactory<String, Flight> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(consumerFactory());
 		return factory;
 	}

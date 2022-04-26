@@ -20,6 +20,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import com.flightapp.login.Response.FlightResponse;
+import com.flightapp.model.Flight;
 
 
 @EnableKafka
@@ -27,18 +28,18 @@ import com.flightapp.login.Response.FlightResponse;
 public class KafkaConfig {
 
 	@Bean
-	public ProducerFactory<String, String> producerFactory() {
+	public ProducerFactory<String, Flight> producerFactory() {
 		Map<String, Object> config = new HashMap<>();
 
 		config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 		config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-		return new DefaultKafkaProducerFactory<String, String>(config);
+		return new DefaultKafkaProducerFactory<String, Flight>(config);
 	}
 
 	@Bean
-	public KafkaTemplate<String, String> kafkaTemplate() {
+	public KafkaTemplate<String, Flight> kafkaTemplate() {
 		return new KafkaTemplate<>(producerFactory());
 	}
 
